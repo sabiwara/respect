@@ -1,4 +1,6 @@
 
+_ = require 'lodash'
+
 class Comparator
 
   constructor: (@expected, @actual) ->
@@ -14,7 +16,9 @@ class Comparator
       @discrepency.push(key)
 
   compareValues: (expected, actual) ->
-    return expected == actual
+    if expected?.prototype?.hasOwnProperty('constructor')
+      return actual?.constructor == expected
+    return _.isEqual expected, actual
 
   assert: (ctx) ->
     ctx.assert(
