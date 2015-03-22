@@ -1,36 +1,14 @@
 
-class Comparator
+Comparator = require './comparator'
 
-  constructor: (@expected, @actual) ->
-    @discrepency = []
-    @displayActual = {}
-    for key, value of @expected
-      @compareKey(key, value)
+match = (expected) ->
+  comparator = new Comparator(expected, this._obj)
+  comparator.assert(this)
 
-  compareKey: (key, expected) ->
-    actual = @actual[key]
-    @displayActual[key] = actual
-    if !@compareValues(expected, actual)
-      @discrepency.push(key)
+hikaku = (chai, utils) ->
+  utils.addMethod chai.Assertion.prototype, 'match', match
 
-  compareValues: (expected, actual) ->
-    return expected == actual
+hikaku.Comparator = Comparator
 
-  assert: (ctx) ->
-    ctx.assert(
-      !@discrepency.length,
-      'expected #{this} to match #{exp} but got #{act}',
-      'expected #{this} not to match #{exp}',
-      @expected,
-      @displayActual
-    )
 
-module.exports = (chai, utils) ->
-
-  Assertion = chai.Assertion
-
-  match = (expected) ->
-    comparator = new Comparator(expected, this._obj)
-    comparator.assert(this)
-
-  utils.addMethod Assertion.prototype, 'match', match
+module.exports = hikaku
