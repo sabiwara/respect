@@ -1,7 +1,7 @@
 
 chai = require 'chai'
 hikaku = require '../lib'
-chai.use hikaku
+hikaku.addToChai chai
 should = chai.should()
 
 
