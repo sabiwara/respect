@@ -48,7 +48,7 @@ class Comparator
   STATICS
   ###
 
-  @KEYWORD: 'conform'
+  @KEYWORD: 'respect'
 
   @addToChai: (chaiModule) ->
     ComparatorClass = @
