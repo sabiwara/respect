@@ -40,3 +40,15 @@ describe 'Constructor comparison', ->
     itShouldNot 'validate unequal Date objects', ->
       { purchasedOn: (new Date '2015-01-01') }.should.respect { purchasedOn: (new Date '2015-01-02') }
     , 'expected { Object (purchasedOn) } to respect { Object (purchasedOn) } but got { Object (purchasedOn) }'
+
+
+  describe 'RegExp constructor', ->
+
+    it 'should validate RegExp instances', ->
+
+      { match: /^WtF[!?]]/ }.should.respect { match: RegExp }
+      { match: new RegExp('^WtF[!?]]') }.should.respect { match: RegExp }
+
+    itShouldNot 'validate non-RegExp values', ->
+      { pattern: 'NotARegExp' }.should.respect { pattern: RegExp }
+    , "expected { pattern: 'NotARegExp' } to respect { Object (pattern) } but got { pattern: 'NotARegExp' }"
