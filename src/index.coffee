@@ -24,6 +24,8 @@ class Comparator
       @conform = false
 
   compareValues: (expected, actual) ->
+    if _.isRegExp expected
+      return (_.isString actual) and (actual.match expected)
     if expected?.prototype?.hasOwnProperty('constructor')
       return actual?.constructor == expected
     return _.isEqual expected, actual

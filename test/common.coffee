@@ -15,4 +15,4 @@ global.itShouldNot = (description, itFunc, expected) ->
       err = e
     finally
       actual = err?.message
-      assert actual == expected, "expected to fail with error:\n #{ expected }\n but got \n #{ actual }"
+      assert actual == expected, "expected to fail with error:\n  #{ expected }\n     but got \n  #{ actual }"
