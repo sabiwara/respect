@@ -10,6 +10,7 @@ class Comparator
   constructor: (@expected, @actual) ->
     @discrepency = []
     @displayActual = {}
+    @conform = true
     for key, value of @expected
       @compareKey(key, value)
 
@@ -18,6 +19,7 @@ class Comparator
     @displayActual[key] = actual
     if !@compareValues(expected, actual)
       @discrepency.push(key)
+      @conform = false
 
   compareValues: (expected, actual) ->
     if expected?.prototype?.hasOwnProperty('constructor')
@@ -25,13 +27,22 @@ class Comparator
     return _.isEqual expected, actual
 
   chaiAssert: (ctx) ->
+    keyword = @constructor.KEYWORD
     ctx.assert(
-      !@discrepency.length,
-      "expected #{'#{this}'} to #{@constructor.KEYWORD} #{'#{exp}'} but got #{'#{act}'}",
-      "expected #{'#{this}'} not to #{@constructor.KEYWORD} #{'#{exp}'}",
+      @conform,
+      "expected #{'#{this}'} to #{keyword} #{'#{exp}'} but got #{'#{act}'}",
+      "expected #{'#{this}'} not to #{keyword} #{'#{exp}'}",
       @expected,
       @displayActual
     )
+
+  shouldAssert: (ctx) ->
+    keyword = @constructor.KEYWORD
+    ctx.params =
+      operator: "to #{ keyword }"
+      expected: @expected
+    if !@conform
+      ctx.fail()
 
   ###
   STATICS
@@ -46,6 +57,14 @@ class Comparator
         comparator = new ComparatorClass(expected, this._obj)
         comparator.chaiAssert(this)
     return chaiModule
+
+  @addToShould: (shouldModule) ->
+    ComparatorClass = @
+    shouldModule.use (should, Assertion) ->
+      Assertion.add ComparatorClass.KEYWORD, (expected) ->
+        comparator = new ComparatorClass(expected, this.obj)
+        comparator.shouldAssert(this)
+    return shouldModule
 
 
 module.exports = Comparator
