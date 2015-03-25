@@ -13,6 +13,10 @@ describe 'Constructor comparison', ->
 
   describe 'Date constructor', ->
 
+    it 'should validate the Date constructor (equality case)', ->
+
+      { type: Date }.should.respect { type: Date }
+
     it 'should validate Date objects', ->
 
       { now: new Date }.should.respect { now: Date }
@@ -43,6 +47,10 @@ describe 'Constructor comparison', ->
 
 
   describe 'RegExp constructor', ->
+
+    it 'should validate the RegExp constructor (equality case)', ->
+
+      { type: RegExp }.should.respect { type: RegExp }
 
     it 'should validate RegExp instances', ->
 

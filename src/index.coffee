@@ -12,23 +12,25 @@ class Comparator
   constructor: (@expected, @actual) ->
     @discrepency = []
     @displayActual = {}
-    @conform = true
+    @conform = yes
     for key, value of @expected
       @compareKey(key, value)
 
-  compareKey: (key, expected) ->
+  compareKey: (key, expected) =>
     actual = @actual[key]
     @displayActual[key] = actual
     if !@compareValues(expected, actual)
       @discrepency.push(key)
-      @conform = false
+      @conform = no
 
   compareValues: (expected, actual) ->
+    if _.isEqual expected, actual
+      return yes
     if _.isRegExp expected
       return (_.isString actual) and (actual.match expected)
     if expected?.prototype?.hasOwnProperty('constructor')
-      return actual?.constructor == expected
-    return _.isEqual expected, actual
+      return actual?.constructor is expected
+    return no
 
   chaiAssert: (ctx) ->
     keyword = @KEYWORD
@@ -59,7 +61,6 @@ class Comparator
   @addToChai: (chaiModule, alias) ->
     ComparatorClass = @spawnSubClass alias
     chaiModule.use (chai, utils) ->
-      console.log 'chai.should.', ComparatorClass::KEYWORD
       utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected) ->
         comparator = new ComparatorClass(expected, this._obj)
         comparator.chaiAssert(this)
@@ -68,7 +69,6 @@ class Comparator
   @addToShould: (shouldModule, alias) ->
     ComparatorClass = @spawnSubClass alias
     shouldModule.use (should, Assertion) ->
-      console.log 'should.', ComparatorClass::KEYWORD
       Assertion.add ComparatorClass::KEYWORD, (expected) ->
         comparator = new ComparatorClass(expected, this.obj)
         comparator.shouldAssert(this)

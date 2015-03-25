@@ -21,6 +21,13 @@ describe 'Regex comparison', ->
       { name: 'Saburo' }.should.respect { name: /^[TS].*j.r/ }
     , "expected { name: 'Saburo' } to respect { name: /^[TS].*j.r/ } but got { name: 'Saburo' }"
 
+    it 'should validate an equal RegExp', ->
+      { pattern: /^[TS].*j.r/ }.should.respect { pattern: /^[TS].*j.r/ }
+
+    itShouldNot 'validate an equal RegExp', ->
+      { pattern: /^[TS].*j.r/ }.should.respect { pattern: /^[TS].*j.r/i }
+    , 'expected { pattern: /^[TS].*j.r/ } to respect { pattern: /^[TS].*j.r/i } but got { pattern: /^[TS].*j.r/ }'
+
     itShouldNot 'validate non-strings', ->
       { name: 5 }.should.respect { name: /5/ }
     , 'expected { name: 5 } to respect { name: /5/ } but got { name: 5 }'
