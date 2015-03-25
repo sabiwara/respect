@@ -3,13 +3,13 @@ should = null
 hikaku = require '..'
 
 
-before ->
-  delete Object.prototype.should
-  chai = require 'chai'
-  hikaku.addToChai chai
-  should = chai.should()
-
 describe '#chai.should.respect', ->
+
+  before ->
+    delete Object::should
+    chai = require 'chai'
+    hikaku.addToChai chai
+    should = chai.should()
 
   describe 'basic usage', ->
 
@@ -29,6 +29,7 @@ describe '#chai.should.respect', ->
       }.should.respect { a: 5, c: 7 }
     , 'expected { a: 5, b: 6 } to respect { a: 5, c: 7 } but got { a: 5, c: undefined }'
 
+
   describe 'basic usage (negative form)', ->
 
     itShouldNot 'accept an exact match', ->
@@ -47,7 +48,6 @@ describe '#chai.should.respect', ->
       {
         a: 5, b: 6
       }.should.not.respect { a: 5, c: 7 }
-
 
 
   describe 'undefined/null keys', ->

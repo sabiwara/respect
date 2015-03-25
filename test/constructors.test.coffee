@@ -3,13 +3,13 @@ should = null
 hikaku = require '..'
 
 
-before ->
-  delete Object.prototype.should
-  chai = require 'chai'
-  hikaku.addToChai chai
-  should = chai.should()
-
 describe 'Constructor comparison', ->
+
+  before ->
+    delete Object::should
+    chai = require 'chai'
+    hikaku.addToChai chai
+    should = chai.should()
 
   describe 'Date constructor', ->
 

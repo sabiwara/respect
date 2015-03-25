@@ -3,6 +3,8 @@ _ = require 'lodash'
 
 class Comparator
 
+  KEYWORD: 'respect'
+
   ###
   METHODS
   ###
@@ -27,7 +29,7 @@ class Comparator
     return _.isEqual expected, actual
 
   chaiAssert: (ctx) ->
-    keyword = @constructor.KEYWORD
+    keyword = @KEYWORD
     ctx.assert(
       @conform,
       "expected #{'#{this}'} to #{keyword} #{'#{exp}'} but got #{'#{act}'}",
@@ -37,9 +39,8 @@ class Comparator
     )
 
   shouldAssert: (ctx) ->
-    keyword = @constructor.KEYWORD
     ctx.params =
-      operator: "to #{ keyword }"
+      operator: "to #{ @KEYWORD }"
       expected: @expected
     if !@conform
       ctx.fail()
@@ -48,20 +49,25 @@ class Comparator
   STATICS
   ###
 
-  @KEYWORD: 'respect'
+  @spawnSubClass: (alias) ->
+    class ComparatorClass extends @
+    ComparatorClass::KEYWORD = alias if alias
+    return ComparatorClass
 
-  @addToChai: (chaiModule) ->
-    ComparatorClass = @
+  @addToChai: (chaiModule, alias) ->
+    ComparatorClass = @spawnSubClass alias
     chaiModule.use (chai, utils) ->
-      utils.addMethod chai.Assertion.prototype, ComparatorClass.KEYWORD, (expected) ->
+      console.log 'chai.should.', ComparatorClass::KEYWORD
+      utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected) ->
         comparator = new ComparatorClass(expected, this._obj)
         comparator.chaiAssert(this)
     return chaiModule
 
-  @addToShould: (shouldModule) ->
-    ComparatorClass = @
+  @addToShould: (shouldModule, alias) ->
+    ComparatorClass = @spawnSubClass alias
     shouldModule.use (should, Assertion) ->
-      Assertion.add ComparatorClass.KEYWORD, (expected) ->
+      console.log 'should.', ComparatorClass::KEYWORD
+      Assertion.add ComparatorClass::KEYWORD, (expected) ->
         comparator = new ComparatorClass(expected, this.obj)
         comparator.shouldAssert(this)
     return shouldModule
