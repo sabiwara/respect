@@ -1,5 +1,5 @@
 
-should
+should = null
 hikaku = require '..'
 
 negativeFail =  '(false negative fail)'

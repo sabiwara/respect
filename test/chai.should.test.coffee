@@ -1,11 +1,13 @@
 
-delete Object.prototype.should
-
-chai = require 'chai'
+should = null
 hikaku = require '..'
-hikaku.addToChai chai
-should = chai.should()
 
+
+before ->
+  delete Object.prototype.should
+  chai = require 'chai'
+  hikaku.addToChai chai
+  should = chai.should()
 
 describe '#chai.should.conform', ->
 
@@ -30,7 +32,7 @@ describe '#chai.should.conform', ->
       catch e
         err = e
       finally
-        should.exist (err and err.message), 'Expected an error'
+        assert err?.message, 'Expected an error'
         err.message.should.equal 'expected { a: 5, b: 6 } to conform { a: 5, c: 7 } but got { a: 5, c: undefined }'
 
   describe 'basic usage (negative form)', ->
@@ -43,7 +45,7 @@ describe '#chai.should.conform', ->
       catch  e
         err = e
       finally
-        should.exist (err and err.message), 'Expected an error'
+        assert err?.message, 'Expected an error'
         err.message.should.equal 'expected { a: 5, b: 6 } not to conform { a: 5, b: 6 }'
 
     it 'should accept a partial conform', ->
@@ -54,7 +56,7 @@ describe '#chai.should.conform', ->
       catch  e
         err = e
       finally
-        should.exist (err and err.message), 'Expected an error'
+        assert err?.message, 'Expected an error'
         err.message.should.equal 'expected { a: 5, b: 6 } not to conform { a: 5 }'
 
     it 'should not accept a missing key', ->
@@ -75,7 +77,7 @@ describe '#chai.should.conform', ->
       catch e
         err = e
       finally
-        should.exist (err and err.message), 'Expected an error'
+        assert err?.message, 'Expected an error'
         err.message.should.equal 'expected { a: 5, b: 6 } to conform { a: 5, b: undefined } but got { a: 5, b: 6 }'
 
     it 'should conform absent undefined keys', ->
@@ -92,7 +94,7 @@ describe '#chai.should.conform', ->
       catch e
         err = e
       finally
-        should.exist (err and err.message), 'Expected an error'
+        assert err?.message, 'Expected an error'
         err.message.should.equal(
           'expected { a: 5, b: null } to conform { a: 5, b: undefined } but got { a: 5, b: null }'
         )

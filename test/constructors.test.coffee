@@ -1,11 +1,13 @@
 
-delete Object.prototype.should
-
-chai = require 'chai'
+should = null
 hikaku = require '..'
-hikaku.addToChai chai
-should = chai.should()
 
+
+before ->
+  delete Object.prototype.should
+  chai = require 'chai'
+  hikaku.addToChai chai
+  should = chai.should()
 
 describe 'Constructor comparison', ->
 
@@ -23,7 +25,7 @@ describe 'Constructor comparison', ->
       catch e
         err = e
       finally
-        should.exist err?.message, 'expected an error'
+        assert err?.message, 'expected an error'
         err.message.should.equal('expected { a: 5 } to conform { a: [Function: Date] } but got { a: 5 }')
 
     it 'should not validate null values', ->
@@ -33,7 +35,7 @@ describe 'Constructor comparison', ->
       catch e
         err = e
       finally
-        should.exist err?.message, 'expected an error'
+        assert err?.message, 'expected an error'
         err.message.should.equal('expected { a: null } to conform { a: [Function: Date] } but got { a: null }')
 
     it 'should not validate missing values', ->
@@ -43,7 +45,7 @@ describe 'Constructor comparison', ->
       catch e
         err = e
       finally
-        should.exist err?.message, 'expected an error'
+        assert err?.message, 'expected an error'
         err.message.should.equal 'expected {} to conform { a: [Function: Date] } but got { a: undefined }'
 
   describe 'Date object', ->
@@ -60,7 +62,7 @@ describe 'Constructor comparison', ->
       catch e
         err = e
       finally
-        should.exist err?.message, 'expected an error'
+        assert err?.message, 'expected an error'
         err.message.should.equal(
           'expected { Object (purchasedOn) } to conform { Object (purchasedOn) } but got { Object (purchasedOn) }'
         )
