@@ -1,6 +1,6 @@
 
 should = null
-hikaku = require '..'
+respect = require '..'
 
 
 describe '#Aliases', ->
@@ -11,7 +11,7 @@ describe '#Aliases', ->
     before ->
       delete Object::should
       chai = require 'chai'
-      hikaku.addToChai chai, 'match'
+      respect.addToChai chai, 'match'
       should = chai.should()
 
 
@@ -36,7 +36,7 @@ describe '#Aliases', ->
     before ->
       delete Object::should
       should = require 'should'
-      hikaku.addToShould should, 'match'
+      respect.addToShould should, 'match'
       # IMPORTANT: we have to do it ourselves since the requirement will not do it again
       should.extend('should', Object.prototype)
 

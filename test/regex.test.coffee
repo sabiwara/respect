@@ -1,6 +1,6 @@
 
 should = null
-hikaku = require '..'
+respect = require '..'
 
 
 describe 'Regex comparison', ->
@@ -8,7 +8,7 @@ describe 'Regex comparison', ->
   before ->
     delete Object::should
     chai = require 'chai'
-    hikaku.addToChai chai
+    respect.addToChai chai
     should = chai.should()
 
   describe 'Regex literal', ->

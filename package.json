@@ -1,10 +1,13 @@
 {
-  "name": "hikaku",
-  "description": "Smart comparison plugins for BDD assertions tools",
+  "name": "respect",
+  "description": "Comparison plugin for BDD assertion libs",
   "version": "0.0.1",
   "author": "Sabiwara <sabiwara@gmail.com>",
   "license": "MIT",
-  "repository": "sabiwara/hikaku",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/sabiwara/respect"
+  },
   "scripts": {
     "test": "grunt check"
   },
@@ -28,7 +31,6 @@
     "bdd",
     "unit test",
     "should",
-    "chai",
-    "mongoose"
+    "chai"
   ]
 }

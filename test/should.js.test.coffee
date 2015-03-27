@@ -1,6 +1,6 @@
 
 should = null
-hikaku = require '..'
+respect = require '..'
 
 negativeFail =  '(false negative fail)'
 
@@ -9,7 +9,7 @@ describe '#should.respect', ->
   before ->
     delete Object::should
     should = require 'should'
-    hikaku.addToShould should
+    respect.addToShould should
     # IMPORTANT: we have to do it ourselves since the requirement will not do it again
     should.extend('should', Object.prototype)
 

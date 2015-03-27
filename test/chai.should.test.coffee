@@ -1,6 +1,6 @@
 
 should = null
-hikaku = require '..'
+respect = require '..'
 
 
 describe '#chai.should.respect', ->
@@ -8,7 +8,7 @@ describe '#chai.should.respect', ->
   before ->
     delete Object::should
     chai = require 'chai'
-    hikaku.addToChai chai
+    respect.addToChai chai
     should = chai.should()
 
   describe 'basic usage', ->

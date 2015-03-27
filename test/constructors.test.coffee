@@ -1,6 +1,6 @@
 
 should = null
-hikaku = require '..'
+respect = require '..'
 
 
 describe 'Constructor comparison', ->
@@ -8,7 +8,7 @@ describe 'Constructor comparison', ->
   before ->
     delete Object::should
     chai = require 'chai'
-    hikaku.addToChai chai
+    respect.addToChai chai
     should = chai.should()
 
   describe 'Date constructor', ->
