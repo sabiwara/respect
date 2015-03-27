@@ -1,6 +1,6 @@
 {
   "name": "respect",
-  "description": "Comparison plugin for BDD assertion libs",
+  "description": "Comparison plugin for BDD assertion libraries (chai, should)",
   "version": "0.0.1",
   "author": "Sabiwara <sabiwara@gmail.com>",
   "license": "MIT",
