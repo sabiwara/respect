@@ -9,7 +9,7 @@ describe '#should.respect', ->
   before ->
     delete Object::should
     should = require 'should'
-    respect.addToShould should
+    should.use respect.shouldPlugin()
     # IMPORTANT: we have to do it ourselves since the requirement will not do it again
     should.extend('should', Object.prototype)
 

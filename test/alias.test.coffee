@@ -11,7 +11,7 @@ describe '#Aliases', ->
     before ->
       delete Object::should
       chai = require 'chai'
-      respect.addToChai chai, 'match'
+      chai.use respect.chaiPlugin('match')
       should = chai.should()
 
 
@@ -36,7 +36,7 @@ describe '#Aliases', ->
     before ->
       delete Object::should
       should = require 'should'
-      respect.addToShould should, 'match'
+      should.use respect.shouldPlugin('match')
       # IMPORTANT: we have to do it ourselves since the requirement will not do it again
       should.extend('should', Object.prototype)
 

@@ -50,14 +50,14 @@ In one words, it checks if an object **respects a specification** rather than co
 
 ```javascript
   var should = require('should');
-  require('respect').addToShould(should);
+  should.use(require('respect').shouldPlugin());
 ```
 
 #### With `chai.js`
 
 ```javascript
   var chai = require('chai');
-  require('respect').addToChai(chai);
+  chai.use(require('respect').chaiPlugin());
 
   // Then, according to your preferences:
   var should = chai.should();
@@ -161,7 +161,7 @@ For those who prefer to use their own keyword instead of the default `'respect'`
 
 ```javascript
   var chai = require('chai');
-  require('respect').addToChai(chai, 'matchSpec');
+  chai.use(require('respect').chaiPlugin('matchSpec'));
   chai.should();
 
   { name: 'Jimmy Hudson', age: 54, male: true }.should.matchSpec({ name: String, age: Number });
@@ -173,5 +173,5 @@ For those who prefer to use their own keyword instead of the default `'respect'`
 ```javascript
   var Comparator = require('respect'); 
   var MyComparator = // TODO write extension code (examples to come)
-  MyComparator.addToChai(chai);
+  chai.use(MyComparator.chaiPlugin());
 ```

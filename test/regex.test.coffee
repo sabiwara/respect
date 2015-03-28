@@ -8,7 +8,7 @@ describe 'Regex comparison', ->
   before ->
     delete Object::should
     chai = require 'chai'
-    respect.addToChai chai
+    chai.use respect.chaiPlugin()
     should = chai.should()
 
   describe 'Regex literal', ->

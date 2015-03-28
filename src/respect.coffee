@@ -32,21 +32,19 @@ class RespectPlugin extends Comparator
     ComparatorClass::KEYWORD = alias if alias
     return ComparatorClass
 
-  @addToChai: (chaiModule, alias) ->
-    ComparatorClass = @spawnSubClass alias
-    chaiModule.use (chai, utils) ->
+  @chaiPlugin: (alias) ->
+    (chai, utils) =>
+      ComparatorClass = @spawnSubClass alias
       utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected, options) ->
         comparator = new ComparatorClass(expected, this._obj, options)
         comparator.chaiAssert(this)
-    return chaiModule
 
-  @addToShould: (shouldModule, alias) ->
-    ComparatorClass = @spawnSubClass alias
-    shouldModule.use (should, Assertion) ->
+  @shouldPlugin: (alias) ->
+    (should, Assertion) =>
+      ComparatorClass = @spawnSubClass alias
       Assertion.add ComparatorClass::KEYWORD, (expected, options) ->
         comparator = new ComparatorClass(expected, this.obj, options)
         comparator.shouldAssert(this)
-    return shouldModule
 
 
 module.exports = RespectPlugin
