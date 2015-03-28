@@ -63,8 +63,6 @@ In one words, it checks if an object **respects a specification** rather than co
   var should = chai.should();
   // OR
   var expect = chai.expect;
-  // OR
-  var assert = chai.assert;
 ```
 
 
@@ -72,7 +70,10 @@ In one words, it checks if an object **respects a specification** rather than co
 
 The generic syntax is:
 ```javascript
-  record.should.respect(specifications, options);
+  data.should.respect(specifications, options);
+  // OR
+  expect(data).to.respect(specifications, options);
+
 ```
 
 Nested objects are compared recursively, and arrays are iterated over.

@@ -1,5 +1,5 @@
 
-global.assert = require 'assert'
+assert = require 'assert'
 
 
 global.itShouldNot = (description, itFunc, expected) ->
