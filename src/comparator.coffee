@@ -7,14 +7,15 @@ class Comparator
   METHODS
   ###
 
-  constructor: (@expected, @actual, options={}) ->
+  constructor: (@expected, @actual, options) ->
+    @options = {}
     for optionName in ['partial', 'regex', 'types']
-      @[optionName] = not (options[optionName] is no)
+      @options[optionName] = not (options?[optionName] is no)
     @discrepency = []
     @displayActual = {}
     @conform = yes
     @comparePartial()
-    if not @partial
+    if not @options.partial
       @checkForMissingKeys()
 
   comparePartial: =>
@@ -35,6 +36,9 @@ class Comparator
   compareValues: (expected, actual) ->
     if _.isEqual expected, actual
       return yes
+    if _.isPlainObject expected
+      subComparator = new @constructor expected, actual, @options
+      return subComparator.conform
     if _.isRegExp expected
       return (_.isString actual) and (actual.match expected)
     if expected?.prototype?.hasOwnProperty('constructor')
