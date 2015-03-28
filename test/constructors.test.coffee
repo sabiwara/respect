@@ -11,14 +11,52 @@ describe 'Constructor comparison', ->
     chai.use respect.chaiPlugin()
     should = chai.should()
 
+
+  describe 'String constructor', ->
+
+    it 'should validate the String constructor (equality case)', ->
+      { type: String }.should.respect { type: String }
+
+    it 'should validate strings', ->
+      { name: 'Akahige' }.should.respect { name: String }
+
+    itShouldNot 'validate non-Date values', ->
+      { name: /Akahige/ }.should.respect { name: String }
+    , 'expected { name: /Akahige/ } to respect { name: [Function: String] }'
+
+
+  describe 'Number constructor', ->
+
+    it 'should validate the Number constructor (equality case)', ->
+      { type: Number }.should.respect { type: Number }
+
+    it 'should validate Numbers', ->
+      { age: 55 }.should.respect { age: Number }
+
+    itShouldNot 'validate non-Date values', ->
+      { age: '55' }.should.respect { age: Number }
+    , 'expected { age: \'55\' } to respect { age: [Function: Number] }'
+
+
+  describe 'Boolean constructor', ->
+
+    it 'should validate the Boolean constructor (equality case)', ->
+      { type: Boolean }.should.respect { type: Boolean }
+
+    it 'should validate Booleans', ->
+      { male: true }.should.respect { male: Boolean }
+
+    itShouldNot 'validate non-Date values', ->
+      { male: null }.should.respect { male: Boolean }
+    , 'expected { male: null } to respect { male: [Function: Boolean] }'
+
+
   describe 'Date constructor', ->
 
     it 'should validate the Date constructor (equality case)', ->
-
       { type: Date }.should.respect { type: Date }
 
     it 'should validate Date objects', ->
-
       { now: new Date }.should.respect { now: Date }
       { now: new Date '2015-01-01' }.should.respect { now: Date }
 
@@ -38,7 +76,6 @@ describe 'Constructor comparison', ->
   describe 'Date object', ->
 
     it 'should validate equal Date objects', ->
-
       { purchasedOn: (new Date '2015-01-01') }.should.respect { purchasedOn: (new Date '2015-01-01') }
 
     itShouldNot 'validate unequal Date objects', ->
@@ -49,11 +86,9 @@ describe 'Constructor comparison', ->
   describe 'RegExp constructor', ->
 
     it 'should validate the RegExp constructor (equality case)', ->
-
       { type: RegExp }.should.respect { type: RegExp }
 
     it 'should validate RegExp instances', ->
-
       { match: /^WtF[!?]]/ }.should.respect { match: RegExp }
       { match: new RegExp('^WtF[!?]]') }.should.respect { match: RegExp }
 

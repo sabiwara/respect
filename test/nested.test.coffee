@@ -51,16 +51,13 @@ describe 'Nested objects comparison', ->
   it 'should not validate partially equal objects if partial option is false', ->
 
     doc =
-      _id: '55167a304e067c005e573dc0'
       item: 'IDPXIDH-7890'
-      qty: 5
       dates:
         purchase: new Date '2015-01-05'
         payment: new Date '2015-01-06'
 
     specification =
       item: 'IDPXIDH-7890'
-      qty: 5
       dates:
         purchase: Date
 
