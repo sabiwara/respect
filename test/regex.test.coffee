@@ -14,12 +14,11 @@ describe 'Regex comparison', ->
   describe 'Regex literal', ->
 
     it 'should validate matching strings', ->
-
       { name: 'Sanjuro' }.should.respect { name: /^[TS].*j.r/ }
 
     itShouldNot 'validate missing non-matching strings', ->
       { name: 'Saburo' }.should.respect { name: /^[TS].*j.r/ }
-    , "expected { name: 'Saburo' } to respect { name: /^[TS].*j.r/ }"
+    , 'expected { name: \'Saburo\' } to respect { name: /^[TS].*j.r/ }'
 
     it 'should validate an equal RegExp', ->
       { pattern: /^[TS].*j.r/ }.should.respect { pattern: /^[TS].*j.r/ }
@@ -44,9 +43,15 @@ describe 'Regex comparison', ->
   describe 'Regex object', ->
 
     it 'should validate matching strings', ->
-
       { name: 'Sanjuro' }.should.respect { name: new RegExp('^[TS].*j.r') }
 
     itShouldNot 'validate missing non-matching strings', ->
       { name: 'Saburo' }.should.respect { name: new RegExp('^[TS].*j.r') }
-    , "expected { name: 'Saburo' } to respect { name: /^[TS].*j.r/ }"
+    , 'expected { name: \'Saburo\' } to respect { name: /^[TS].*j.r/ }'
+
+
+  describe 'when `types` option is disabled', ->
+
+    itShouldNot 'validate validate matching strings when `regex` is false', ->
+      { name: 'Sanjuro' }.should.respect { name: /^[TS].*j.r/ }, regex: false
+    , 'expected { name: \'Sanjuro\' } to respect { name: /^[TS].*j.r/ }'

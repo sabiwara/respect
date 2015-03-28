@@ -39,9 +39,9 @@ class Comparator
     if _.isPlainObject expected
       subComparator = new @constructor expected, actual, @options
       return subComparator.conform
-    if _.isRegExp expected
+    if @options.regex and _.isRegExp expected
       return (_.isString actual) and (actual.match expected)
-    if expected?.prototype?.hasOwnProperty('constructor')
+    if @options.types and expected?.prototype?.hasOwnProperty('constructor')
       return actual?.constructor is expected
     return no
 

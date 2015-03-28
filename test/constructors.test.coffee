@@ -12,7 +12,7 @@ describe 'Constructor comparison', ->
     should = chai.should()
 
 
-  describe 'String constructor', ->
+  describe 'for String constructor', ->
 
     it 'should validate the String constructor (equality case)', ->
       { type: String }.should.respect { type: String }
@@ -25,7 +25,7 @@ describe 'Constructor comparison', ->
     , 'expected { name: /Akahige/ } to respect { name: [Function: String] }'
 
 
-  describe 'Number constructor', ->
+  describe 'for Number constructor', ->
 
     it 'should validate the Number constructor (equality case)', ->
       { type: Number }.should.respect { type: Number }
@@ -38,7 +38,7 @@ describe 'Constructor comparison', ->
     , 'expected { age: \'55\' } to respect { age: [Function: Number] }'
 
 
-  describe 'Boolean constructor', ->
+  describe 'for Boolean constructor', ->
 
     it 'should validate the Boolean constructor (equality case)', ->
       { type: Boolean }.should.respect { type: Boolean }
@@ -51,7 +51,7 @@ describe 'Constructor comparison', ->
     , 'expected { male: null } to respect { male: [Function: Boolean] }'
 
 
-  describe 'Date constructor', ->
+  describe 'for Date constructor', ->
 
     it 'should validate the Date constructor (equality case)', ->
       { type: Date }.should.respect { type: Date }
@@ -73,7 +73,7 @@ describe 'Constructor comparison', ->
     , 'expected {} to respect { a: [Function: Date] }'
 
 
-  describe 'Date object', ->
+  describe 'for Date object', ->
 
     it 'should validate equal Date objects', ->
       { purchasedOn: (new Date '2015-01-01') }.should.respect { purchasedOn: (new Date '2015-01-01') }
@@ -83,7 +83,7 @@ describe 'Constructor comparison', ->
     , 'expected { Object (purchasedOn) } to respect { Object (purchasedOn) }'
 
 
-  describe 'RegExp constructor', ->
+  describe 'for RegExp constructor', ->
 
     it 'should validate the RegExp constructor (equality case)', ->
       { type: RegExp }.should.respect { type: RegExp }
@@ -95,3 +95,10 @@ describe 'Constructor comparison', ->
     itShouldNot 'validate non-RegExp values', ->
       { pattern: 'NotARegExp' }.should.respect { pattern: RegExp }
     , 'expected { pattern: \'NotARegExp\' } to respect { Object (pattern) }'
+
+
+  describe 'when `types` option is disabled', ->
+
+    itShouldNot 'validate partial matches when `types` is false', ->
+      { now: new Date '2015-01-01' }.should.respect { now: Date }, types: false
+    , 'expected { now: Thu, 01 Jan 2015 00:00:00 GMT } to respect { now: [Function: Date] }'
