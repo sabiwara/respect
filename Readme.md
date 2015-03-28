@@ -128,7 +128,9 @@ This behaviour can be deactivated by providing a `{ regex: false }` option.
 This behaviour can be deactivated by providing a `{ types: false }` option.
 
 
-#### Change default behaviours
+### Override default behaviours
+
+#### On the assertion level:
 
 Example of changing default behaviours:
 
@@ -153,18 +155,28 @@ Whereas it can be necessary to deactivate one given behaviour for specific cases
 in place of a deep equal comparator. Just use the already implemented `should.deep.equal`.
 
 
-### Other features
+#### On the plugin level
 
-#### Change the `'respect'` keyword
-
-For those who prefer to use their own keyword instead of the default `'respect'`, you can easily pick your own alias.
+`chaiPlugin` and `shouldPlugin` both accept an `options` object, which can override the default behaviours for
+all assertions made from this module.
+Besides, for those who prefer to use their own keyword instead of the default `'respect'`,
+you can easily pick your own alias by providing an `alias` option when generating the plugin.
+You can even declare several plugins with different options under different aliases.
 
 ```javascript
   var chai = require('chai');
-  chai.use(require('respect').chaiPlugin('matchSpec'));
+  var respect = require('respect');
+  chai.use(respect).chaiPlugin({ alias: 'matchStrictly', partial: false, types: false }));
+  chai.use(respect).chaiPlugin({ alias: 'matchAll', partial: false }));
+  chai.use(respect).chaiPlugin({ alias: 'matchPartially' }));
   chai.should();
 
-  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchSpec({ name: String, age: Number });
+  // Will fail because of the unactivated `types` option
+  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchStrictly({ name: String, age: Number, male: Boolean });
+  // Will fail because of the unactivated `partial` option and the missing 'male' key
+  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchAll({ name: String, age: Number });
+  // Will succeed
+  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchPartially({ name: String, age: Number });
 ```
 
 #### Extend the comparison methods

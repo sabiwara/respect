@@ -27,21 +27,31 @@ class RespectPlugin extends Comparator
   STATICS
   ###
 
-  @spawnSubClass: (alias) ->
+  @parseCustom: (custom) ->
+    alias = custom?.alias
+    options = {}
+    for optionName, defaultValue of @DEFAULT_OPTIONS
+      options[optionName] = custom?[optionName]
+      options[optionName] ?= defaultValue
+    return [alias, options]
+
+  @spawnSubClass: (custom) ->
     class ComparatorClass extends @
+    [alias, options] = @parseCustom(custom)
     ComparatorClass::KEYWORD = alias if alias
+    ComparatorClass.DEFAULT_OPTIONS = options
     return ComparatorClass
 
-  @chaiPlugin: (alias) ->
+  @chaiPlugin: (custom) ->
     (chai, utils) =>
-      ComparatorClass = @spawnSubClass alias
+      ComparatorClass = @spawnSubClass custom
       utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected, options) ->
         comparator = new ComparatorClass(expected, this._obj, options)
         comparator.chaiAssert(this)
 
-  @shouldPlugin: (alias) ->
+  @shouldPlugin: (custom) ->
     (should, Assertion) =>
-      ComparatorClass = @spawnSubClass alias
+      ComparatorClass = @spawnSubClass custom
       Assertion.add ComparatorClass::KEYWORD, (expected, options) ->
         comparator = new ComparatorClass(expected, this.obj, options)
         comparator.shouldAssert(this)
