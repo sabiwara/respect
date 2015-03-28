@@ -7,10 +7,16 @@ class Comparator
   METHODS
   ###
 
+  @DEFAULT_OPTIONS:
+    partial: yes
+    regex: yes
+    types: yes
+
   constructor: (@expected, @actual, options) ->
     @options = {}
-    for optionName in ['partial', 'regex', 'types']
-      @options[optionName] = not (options?[optionName] is no)
+    for optionName, defaultValue of @constructor.DEFAULT_OPTIONS
+      @options[optionName] = options?[optionName]
+      @options[optionName] ?= defaultValue
     @discrepency = []
     @displayActual = {}
     @conform = yes
