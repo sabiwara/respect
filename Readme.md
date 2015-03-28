@@ -77,8 +77,7 @@ The generic syntax is:
 ```
 
 Nested objects are compared recursively, and arrays are iterated over.
-
-`options` is optional and can be ommitted. By default all the following options are set to `true`:
+`options` can be ommitted: by default all the following options are set to `true`:
 
 #### `partial`: Ignore un-specified fields
 
@@ -138,10 +137,10 @@ Example of changing default behaviours:
   {
     description: 'matches the regex but is a string',
     now: new Date(),
-    fieldThatShouldNotBeHere: true  // will not be accepted because partial=false
+    fieldThatShouldNotBeHere: true   // will not be accepted because partial=false
   }.should.respect({
-    description: /regex/,  // will fail because regex=false
-    now: Date // will fail because types=false
+    description: /regex/,            // will fail because regex=false
+    now: Date                        // will fail because types=false
   }, {
       partial: false,
       regex: false,
