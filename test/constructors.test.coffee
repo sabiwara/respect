@@ -24,15 +24,15 @@ describe 'Constructor comparison', ->
 
     itShouldNot 'validate non-Date values', ->
       { a: 5 }.should.respect { a: Date }
-    , 'expected { a: 5 } to respect { a: [Function: Date] } but got { a: 5 }'
+    , 'expected { a: 5 } to respect { a: [Function: Date] }'
 
     itShouldNot 'not validate null values', ->
       { a: null }.should.respect { a: Date }
-    , 'expected { a: null } to respect { a: [Function: Date] } but got { a: null }'
+    , 'expected { a: null } to respect { a: [Function: Date] }'
 
     itShouldNot 'validate missing values', ->
       { }.should.respect { a: Date }
-    , 'expected {} to respect { a: [Function: Date] } but got { a: undefined }'
+    , 'expected {} to respect { a: [Function: Date] }'
 
 
   describe 'Date object', ->
@@ -43,7 +43,7 @@ describe 'Constructor comparison', ->
 
     itShouldNot 'validate unequal Date objects', ->
       { purchasedOn: (new Date '2015-01-01') }.should.respect { purchasedOn: (new Date '2015-01-02') }
-    , 'expected { Object (purchasedOn) } to respect { Object (purchasedOn) } but got { Object (purchasedOn) }'
+    , 'expected { Object (purchasedOn) } to respect { Object (purchasedOn) }'
 
 
   describe 'RegExp constructor', ->
@@ -59,4 +59,4 @@ describe 'Constructor comparison', ->
 
     itShouldNot 'validate non-RegExp values', ->
       { pattern: 'NotARegExp' }.should.respect { pattern: RegExp }
-    , "expected { pattern: 'NotARegExp' } to respect { Object (pattern) } but got { pattern: 'NotARegExp' }"
+    , 'expected { pattern: \'NotARegExp\' } to respect { Object (pattern) }'

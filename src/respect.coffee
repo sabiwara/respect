@@ -10,8 +10,8 @@ class RespectPlugin extends Comparator
     keyword = @KEYWORD
     ctx.assert(
       @conform,
-      "expected #{'#{this}'} to #{keyword} #{'#{exp}'} but got #{'#{act}'}",
-      "expected #{'#{this}'} not to #{keyword} #{'#{exp}'}",
+      "expected #{'#{this}'} to #{keyword} #{'#{exp}'}",
+      "expected #{'#{this}'} not to #{keyword} #{'#{exp}'} (false negative fail)",
       @expected,
       @displayActual
     )

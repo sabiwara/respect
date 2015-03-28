@@ -21,7 +21,7 @@ describe '#Aliases', ->
         {
         a: 5, b: 6
         }.should.match { a: 5, c: 7 }
-      , 'expected { a: 5, b: 6 } to match { a: 5, c: 7 } but got { a: 5, c: undefined }'
+      , 'expected { a: 5, b: 6 } to match { a: 5, c: 7 }'
 
     describe 'basic usage (negative form)', ->
 
@@ -29,7 +29,7 @@ describe '#Aliases', ->
         {
         a: 5, b: 6
         }.should.not.match { a: 5, b: 6 }
-      , 'expected { a: 5, b: 6 } not to match { a: 5, b: 6 }'
+      , 'expected { a: 5, b: 6 } not to match { a: 5, b: 6 } (false negative fail)'
 
   describe ' with should.js', ->
 
