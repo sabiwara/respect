@@ -9,12 +9,23 @@ class Comparator
   METHODS
   ###
 
-  constructor: (@expected, @actual) ->
+  constructor: (@expected, @actual, options={}) ->
+    for optionName in ['partial', 'regex', 'types']
+      @[optionName] = not (options[optionName] is no)
     @discrepency = []
     @displayActual = {}
     @conform = yes
+    @comparePartial()
+    if not @partial
+      @checkForMissingKeys()
+
+  comparePartial: =>
     for key, value of @expected
       @compareKey(key, value)
+
+  checkForMissingKeys: =>
+    for key of @actual when not (key of @expected)
+      @compareKey(key, undefined )
 
   compareKey: (key, expected) =>
     actual = @actual[key]
@@ -61,16 +72,16 @@ class Comparator
   @addToChai: (chaiModule, alias) ->
     ComparatorClass = @spawnSubClass alias
     chaiModule.use (chai, utils) ->
-      utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected) ->
-        comparator = new ComparatorClass(expected, this._obj)
+      utils.addMethod chai.Assertion.prototype, ComparatorClass::KEYWORD, (expected, options) ->
+        comparator = new ComparatorClass(expected, this._obj, options)
         comparator.chaiAssert(this)
     return chaiModule
 
   @addToShould: (shouldModule, alias) ->
     ComparatorClass = @spawnSubClass alias
     shouldModule.use (should, Assertion) ->
-      Assertion.add ComparatorClass::KEYWORD, (expected) ->
-        comparator = new ComparatorClass(expected, this.obj)
+      Assertion.add ComparatorClass::KEYWORD, (expected, options) ->
+        comparator = new ComparatorClass(expected, this.obj, options)
         comparator.shouldAssert(this)
     return shouldModule
 

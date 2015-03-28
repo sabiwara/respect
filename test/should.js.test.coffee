@@ -22,8 +22,14 @@ describe '#should.respect', ->
 
     it 'should accept a partial match', ->
       {
-        a: 5, b: 6
+      a: 5, b: 6
       }.should.respect { a: 5 }
+
+    itShouldNot 'should not accept a partial match when partial=false', ->
+      {
+      a: 5, b: 6
+      }.should.respect { a: 5 }, { partial: false }
+    , 'expected { a: 5, b: 6 } to respect { a: 5 }'
 
     itShouldNot 'accept a missing key', ->
       {
