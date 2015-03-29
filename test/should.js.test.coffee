@@ -30,6 +30,15 @@ describe '#should.respect', ->
     , 'expected { a: 5, b: 6 } to respect { a: 5, c: 7 }'
 
 
+  describe 'basic chain usage', ->
+
+    it 'should be chainable', ->
+      { a: 5, b: 6 }.should.respect(a: 5).and.have.property 'b'
+
+    itShouldNot 'validate an object that violates the given chain', ->
+      { a: 5, b: 6 }.should.respect(a: 5).and.have.property 'c'
+    , 'expected { a: 5, b: 6 } to have property c'
+
   describe 'basic usage (negative form)', ->
 
     itShouldNot 'accept an exact match', ->

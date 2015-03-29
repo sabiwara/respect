@@ -28,33 +28,41 @@ describe '#chaiPlugin', ->
         { a: 5, b: 6 }.should.respect { a: 5, c: 7 }
       , 'expected { a: 5, b: 6 } to respect { a: 5, c: 7 }'
 
+    describe 'basic chain usage', ->
 
-      describe 'basic usage (negative form)', ->
+      it 'should be chainable', ->
+        { a: 5, b: 6 }.should.respect(a: 5).and.have.property 'b'
 
-        itShouldNot 'accept an exact match', ->
-          { a: 5, b: 6 }.should.not.respect { a: 5, b: 6 }
-        , "expected { a: 5, b: 6 } not to respect { a: 5, b: 6 } #{ negativeFail }"
+      itShouldNot 'validate an object that violates the given chain', ->
+        { a: 5, b: 6 }.should.respect(a: 5).and.have.property 'c'
+      , 'expected { a: 5, b: 6 } to have a property \'c\''
 
-        itShouldNot 'accept a partial match', ->
-          { a: 5, b: 6 }.should.not.respect { a: 5 }
-        , "expected { a: 5, b: 6 } not to respect { a: 5 } #{ negativeFail }"
+    describe 'basic usage (negative form)', ->
 
-        it 'should not accept a missing key', ->
-          { a: 5, b: 6 }.should.not.respect { a: 5, c: 7 }
+      itShouldNot 'accept an exact match', ->
+        { a: 5, b: 6 }.should.not.respect { a: 5, b: 6 }
+      , "expected { a: 5, b: 6 } not to respect { a: 5, b: 6 } #{ negativeFail }"
+
+      itShouldNot 'accept a partial match', ->
+        { a: 5, b: 6 }.should.not.respect { a: 5 }
+      , "expected { a: 5, b: 6 } not to respect { a: 5 } #{ negativeFail }"
+
+      it 'should not accept a missing key', ->
+        { a: 5, b: 6 }.should.not.respect { a: 5, c: 7 }
 
 
-      describe 'undefined/null keys', ->
+    describe 'undefined/null keys', ->
 
-        itShouldNot 'match present undefined keys', ->
-          { a: 5, b: 6 }.should.respect { a: 5, b: undefined }
-        , 'expected { a: 5, b: 6 } to respect { a: 5, b: undefined }'
+      itShouldNot 'match present undefined keys', ->
+        { a: 5, b: 6 }.should.respect { a: 5, b: undefined }
+      , 'expected { a: 5, b: 6 } to respect { a: 5, b: undefined }'
 
-        it 'should match absent undefined keys', ->
-          { a: 5, c: undefined }.should.respect { a: 5, b: undefined, c: undefined }
+      it 'should match absent undefined keys', ->
+        { a: 5, c: undefined }.should.respect { a: 5, b: undefined, c: undefined }
 
-        itShouldNot 'match present undefined keys', ->
-          { a: 5, b: null }.should.respect { a: 5, b: undefined }
-        , 'expected { a: 5, b: null } to respect { a: 5, b: undefined }'
+      itShouldNot 'match present undefined keys', ->
+        { a: 5, b: null }.should.respect { a: 5, b: undefined }
+      , 'expected { a: 5, b: null } to respect { a: 5, b: undefined }'
 
 
   describe 'with expect', ->
