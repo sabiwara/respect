@@ -1,6 +1,7 @@
 # respect.js
 
-Comparison plugin for BDD assertion libraries (chai, should)
+Comparison plugin for BDD assertion libraries ([chai](http://chaijs.com/),
+[should](https://www.npmjs.com/package/should))
 
 
 ## Installation
@@ -19,7 +20,7 @@ Comparison plugin for BDD assertion libraries (chai, should)
 
 ## tl;dr
 
-The idea behind `respect.js` is to extend BDD assertions to make quick and comprehensive object comparisons.
+The philosophy behind `respect.js` is to extend BDD assertions to make quick and comprehensive object comparisons.
 It extends `should`-like assertions with a `respect` method that takes a specification and checks it matches.
 
 ```javascript
@@ -63,14 +64,14 @@ In one words, it checks if an object **respects a specification** rather than co
   var respect = require('respect');
 ```
 
-#### With `should.js`
+#### With [should](https://www.npmjs.com/package/should)
 
 ```javascript
   var should = require('should');
   should.use(respect.shouldPlugin());
 ```
 
-#### With `chai.js`
+#### With [chai](http://chaijs.com/)
 
 ```javascript
   var chai = require('chai');
@@ -86,11 +87,11 @@ In one words, it checks if an object **respects a specification** rather than co
 ### Assertions
 
 The generic syntax is:
+
 ```javascript
   data.should.respect(specifications, options);
   // OR
   expect(data).to.respect(specifications, options);
-
 ```
 
 Nested objects are compared recursively, and arrays are iterated over.
@@ -99,9 +100,9 @@ Nested objects are compared recursively, and arrays are iterated over.
 #### `partial`: Ignore un-specified fields
 
 ```javascript
-  {
+  ({
     notImportant: 'It is here but we do not need to check for it'
-  }.should.respect({
+  }).should.respect({
     butThisFieldShouldBeAbsent: undefined
   });
 ```
@@ -113,9 +114,9 @@ This behaviour can be deactivated by providing a `{ partial: false }` option.
 #### `regex`: Regex shortcuts
 
 ```javascript
-  {
+  ({
     uuid: 'bbd4e20b-cdd4-5107-ad63-02a2cfc23c5b'
-  }.should.respect({
+  }).should.respect({
     uuid: /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/
   });
 ```
@@ -125,14 +126,14 @@ This behaviour can be deactivated by providing a `{ regex: false }` option.
 #### `types`: Constructors shortcut
 
 ```javascript
-  {
+  ({
     name: 'John',
     age: 55,
     now: new Date(),
     pattern: /[aA]bc.\s/,
     dateConstructor: Date,
     regexConstructor: RegExp
-  }.should.respect({
+  }).should.respect({
     name: String,
     age: Number,
     now: Date,
@@ -153,11 +154,11 @@ Example of changing default behaviours:
 
 ```javascript
   // will raise assertion multiple errors because of options
-  {
+  ({
     description: 'matches the regex but is a string',
     now: new Date(),
     fieldThatShouldNotBeHere: true   // will not be accepted because partial=false
-  }.should.respect({
+  }).should.respect({
     description: /regex/,            // will fail because regex=false
     now: Date                        // will fail because types=false
   }, {
@@ -205,6 +206,15 @@ You can even declare several plugins with different options under different alia
   chai.use(MyComparator.chaiPlugin());
 ```
 
+### Comparisons outside of BDD assertions
+
+If you want to use `respect` as a comparison util outside of BDD assertions, you can simply use its `check()` method.
+
+```javascript
+  // respect.check(actual, expected, [options])
+  respect.check({ name: 'Darth Vader', badass: true }, { badass: true });                      // true
+  respect.check({ name: 'Darth Vader', badass: true }, { badass: true }, { partial: false });  // false
+```
 
 ## Tests
 
@@ -217,3 +227,7 @@ You can even declare several plugins with different options under different alia
 ```bash
   $ npm run gen-doc
 ```
+
+## License
+
+MIT License Copyright (c) 2015 Sabiwara

@@ -23,7 +23,7 @@ describe 'Regex comparison', ->
     it 'should validate an equal RegExp', ->
       { pattern: /^[TS].*j.r/ }.should.respect { pattern: /^[TS].*j.r/ }
 
-    itShouldNot 'validate an equal RegExp', ->
+    itShouldNot 'validate an unequal RegExp', ->
       { pattern: /^[TS].*j.r/ }.should.respect { pattern: /^[TS].*j.r/i }
     , 'expected { pattern: /^[TS].*j.r/ } to respect { pattern: /^[TS].*j.r/i }'
 

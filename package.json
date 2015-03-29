@@ -1,7 +1,7 @@
 {
   "name": "respect",
   "description": "Comparison plugin for BDD assertion libraries (chai, should)",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Sabiwara <sabiwara@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "./node_modules/grunt/bin/grunt check",
-    "gen-doc": "./node_modules/coffeedoc/bin/coffeedoc ./src -o doc"
+    "gen-doc": "./node_modules/coffeedoc/bin/coffeedoc src/*.coffee -o doc"
   },
   "main": "./lib/respect",
   "devDependencies": {
@@ -35,7 +35,9 @@
     "bdd",
     "unit test",
     "should",
-    "chai"
+    "chai",
+    "mocha",
+    "assertion"
   ],
   "files": [
     "lib"
