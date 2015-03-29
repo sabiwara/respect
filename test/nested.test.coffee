@@ -3,14 +3,17 @@ should = null
 respect = require '..'
 
 
+redefineChai = ->
+  delete Object::should
+  chai = require 'chai'
+  chai.use respect.chaiPlugin()
+  should = chai.should()
+
+
 describe 'Nested objects comparison', ->
 
   before ->
-    delete Object::should
-    chai = require 'chai'
-    chai.use respect.chaiPlugin()
-    should = chai.should()
-
+    redefineChai()
 
   it 'should validate partially equal objects', ->
 
@@ -62,3 +65,83 @@ describe 'Nested objects comparison', ->
         purchase: Date
 
     doc.should.not.respect specification, { partial: false }
+
+
+describe 'Nested arrays comparison', ->
+
+  before ->
+    redefineChai()
+
+  it 'should validate a simple nested array', ->
+    { arr: [5, '34', null, true, 'Matches this RegExp'] }.should.respect { arr: [5, '34', null, Boolean, /regex/i] }
+
+  it 'should not validate a nested array with a different length', ->
+    { arr: [5, '34', null, true, 'Matches this RegExp'] }.should.not.respect { arr: [5, '34', null, Boolean] }
+
+  it 'should validate partially equal objects in nested arrays', ->
+
+    doc =
+      _id: '55167a304e067c005e573da1'
+      orders: [{
+        _id: '55167a304e067c005e573dc0'
+        item: 'IDPXIDH-7890'
+        qty: 5
+        dates:
+          purchase: new Date '2015-01-05'
+          payment: new Date '2015-01-06'
+      }, {
+        _id: '55167a304e067c005e573dc1'
+        item: 'IDPXIDH-7950'
+        qty: 2
+        dates:
+          purchase: new Date '2015-01-05'
+          payment: new Date '2015-01-06'
+      }]
+    specification =
+      orders: [{
+        item: 'IDPXIDH-7890'
+        qty: 5
+        dates:
+          purchase: Date
+      }, {
+        item: 'IDPXIDH-7950'
+        qty: 2
+        dates:
+          purchase: Date
+      }]
+
+    doc.should.respect specification
+
+  it 'should unvalidate unmatching objects in nested arrays', ->
+
+    doc =
+      _id: '55167a304e067c005e573da1'
+      orders: [{
+        _id: '55167a304e067c005e573dc0'
+        item: 'IDPXIDH-7890'
+        qty: 5
+        dates:
+          purchase: new Date '2015-01-05'
+          payment: new Date '2015-01-06'
+      }, {
+        _id: '55167a304e067c005e573dc1'
+        item: 'IDPXIDH-7950'
+        qty: 2
+        dates:
+          purchase: new Date '2015-01-05'
+          payment: new Date '2015-01-06'
+      }]
+    specification =
+      orders: [{
+        item: 'IDPXIDH-7890'
+        qty: 5
+        dates:
+          purchase: Date
+      }, {
+        item: 'IDPXIDH-7950'
+        qty: 3
+        dates:
+          purchase: Date
+      }]
+
+    doc.should.not.respect specification

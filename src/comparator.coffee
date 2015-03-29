@@ -31,7 +31,7 @@ class Comparator
 
   checkForMissingKeys: =>
     for key of @actual when not (key of @expected)
-      @compareKey(key, undefined )
+      @compareKey key, undefined
 
   compareKey: (key, expected) =>
     actual = @actual[key]
@@ -44,13 +44,19 @@ class Comparator
     if _.isEqual expected, actual
       return yes
     if _.isPlainObject expected
-      subComparator = new @constructor expected, actual, @options
-      return subComparator.conform
+      return @compareNested expected, actual
+    if _.isArray expected
+      if not ((_.isArray actual) and (actual.length is expected.length))
+        return no
+      return @compareNested expected, actual
     if @options.regex and _.isRegExp expected
       return (_.isString actual) and (actual.match expected)
     if @options.types and expected?.prototype?.hasOwnProperty('constructor')
       return actual?.constructor is expected
     return no
 
+  compareNested: (expected, actual) ->
+    subComparator = new @constructor expected, actual, @options
+    return subComparator.conform
 
 module.exports = Comparator

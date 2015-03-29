@@ -74,13 +74,18 @@
     };
 
     Comparator.prototype.compareValues = function(expected, actual) {
-      var ref, subComparator;
+      var ref;
       if (_.isEqual(expected, actual)) {
         return true;
       }
       if (_.isPlainObject(expected)) {
-        subComparator = new this.constructor(expected, actual, this.options);
-        return subComparator.conform;
+        return this.compareNested(expected, actual);
+      }
+      if (_.isArray(expected)) {
+        if (!((_.isArray(actual)) && (actual.length === expected.length))) {
+          return false;
+        }
+        return this.compareNested(expected, actual);
       }
       if (this.options.regex && _.isRegExp(expected)) {
         return (_.isString(actual)) && (actual.match(expected));
@@ -89,6 +94,12 @@
         return (actual != null ? actual.constructor : void 0) === expected;
       }
       return false;
+    };
+
+    Comparator.prototype.compareNested = function(expected, actual) {
+      var subComparator;
+      subComparator = new this.constructor(expected, actual, this.options);
+      return subComparator.conform;
     };
 
     return Comparator;

@@ -29,6 +29,9 @@ var record = {
   age: 23,
   lastLogin: new Date('2014-20-05 07:51:36'),
   particularity: 'Matches this Regex',
+  nestedObj: {
+    nestedArray: [5, '34', null, true]
+  },
   other: 'Not relevant, will be ignored in the test'
 };
 record.should.respect({
@@ -36,6 +39,9 @@ record.should.respect({
   age: 23
   lastLogin: Date,
   particularity: /regex/i,
+  nestedObj: {
+    nestedArray: [5, String, null, Boolean]
+  },
   unexpectedPropertyThatShouldNotBeHere: undefined
 });
 ```
