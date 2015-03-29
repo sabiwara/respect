@@ -211,3 +211,9 @@ You can even declare several plugins with different options under different alia
 ```bash
   $ npm test
 ```
+
+## Documentation
+
+```bash
+  $ npm run gen-doc
+```

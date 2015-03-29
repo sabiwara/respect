@@ -7,7 +7,7 @@ module.exports = (grunt) ->
 
     coffee:
       respect:
-        expand: true
+        expand: yes
         cwd: 'src'
         src: ['**/*.coffee']
         dest: 'lib'
@@ -43,7 +43,7 @@ module.exports = (grunt) ->
       test:
         src: ['test/**/*.test.coffee'],
         options:
-          recursive: true,
+          recursive: yes,
           reporter: 'spec'
           require: ['test/common']
           compilers: ['coffee:coffee-script/register']
