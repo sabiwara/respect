@@ -187,3 +187,10 @@ You can even declare several plugins with different options under different alia
   var MyComparator = // TODO write extension code (examples to come)
   chai.use(MyComparator.chaiPlugin());
 ```
+
+
+## Tests
+
+```bash
+  $ npm test
+```
