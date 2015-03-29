@@ -57,4 +57,4 @@ class RespectPlugin extends Comparator
         comparator.shouldAssert(this)
 
 
-module.exports = RespectPlugin
+exports = module.exports = RespectPlugin

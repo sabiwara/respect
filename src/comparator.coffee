@@ -1,5 +1,6 @@
 
-_ = require 'lodash'
+_ = require 'lodash/lang'
+
 
 class Comparator
 

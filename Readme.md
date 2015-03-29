@@ -5,10 +5,17 @@ Comparison plugin for BDD assertion libraries (chai, should)
 
 ## Installation
 
+### In node.js:
+
 ``` bash
   $ npm install respect --save-dev
 ```
 
+### In  the browser
+
+```html
+  <script src="respect.min.js" type="text/javascript"></script>
+```
 
 ## tl;dr
 
@@ -46,18 +53,22 @@ In one words, it checks if an object **respects a specification** rather than co
 
 ### Declaration
 
+```javascript
+  var respect = require('respect');
+```
+
 #### With `should.js`
 
 ```javascript
   var should = require('should');
-  should.use(require('respect').shouldPlugin());
+  should.use(respect.shouldPlugin());
 ```
 
 #### With `chai.js`
 
 ```javascript
   var chai = require('chai');
-  chai.use(require('respect').chaiPlugin());
+  chai.use(respect.chaiPlugin());
 
   // Then, according to your preferences:
   var should = chai.should();
@@ -77,7 +88,7 @@ The generic syntax is:
 ```
 
 Nested objects are compared recursively, and arrays are iterated over.
-`options` can be ommitted: by default all the following options are set to `true`:
+`options` can be omitted: by default all the following options are set to `true`:
 
 #### `partial`: Ignore un-specified fields
 

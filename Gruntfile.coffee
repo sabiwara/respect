@@ -2,21 +2,39 @@ module.exports = (grunt) ->
 
   # Project configuration.
   grunt.initConfig
+
+    pkg: grunt.file.readJSON 'package.json'
+
     coffee:
-      app:
+      respect:
         expand: true
         cwd: 'src'
         src: ['**/*.coffee']
         dest: 'lib'
         ext: '.js'
 
+    browserify:
+      respect:
+        options:
+          browserifyOptions:
+            standalone: 'respect'
+        src: ['./lib/respect.js']
+        dest: './respect.js'
+
+    uglify:
+      respect:
+        options:
+          banner: '/*! <%= pkg.name %>.js by <%= pkg.author %> MIT license */\n'
+        files:
+          'respect.min.js': ['respect.js']
+
     watch:
-      app:
+      respect:
         files: ['src/**/*.coffee']
-        tasks: ['coffee']
+        tasks: ['coffee', 'browserify', 'uglify']
 
     coffeelint:
-      app: ['src/**/*.coffee']
+      respect: ['src/**/*.coffee']
       test: ['test/**/*.coffee']
       options:
         configFile: 'coffeelint.json'
@@ -32,11 +50,12 @@ module.exports = (grunt) ->
 
     githooks:
       all:
-        'pre-commit': 'check'
+        'pre-commit': 'pre-commit'
 
   # LOAD
   grunt.loadNpmTasks 'grunt-contrib-coffee'
   grunt.loadNpmTasks 'grunt-contrib-uglify'
+  grunt.loadNpmTasks 'grunt-browserify'
   grunt.loadNpmTasks 'grunt-contrib-watch'
   grunt.loadNpmTasks 'grunt-coffeelint'
   grunt.loadNpmTasks 'grunt-mocha-cov'
@@ -48,4 +67,6 @@ module.exports = (grunt) ->
   grunt.registerTask 'lint', 'coffeelint'
   grunt.registerTask 'test', 'mochacov:test'
   grunt.registerTask 'check', ['compile', 'coffeelint', 'test']
+  grunt.registerTask 'browser', ['browserify', 'uglify']
+  grunt.registerTask 'pre-commit', ['check', 'browser']
   grunt.registerTask 'hook', 'githooks'
