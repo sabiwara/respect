@@ -9,13 +9,13 @@ Comparison plugin for BDD assertion libraries ([chai](http://chaijs.com/),
 ### In node.js:
 
 ``` bash
-  $ npm install respect --save-dev
+$ npm install respect --save-dev
 ```
 
 ### In  the browser
 
 ```html
-  <script src="respect.min.js" type="text/javascript"></script>
+<script src="respect.min.js" type="text/javascript"></script>
 ```
 
 ## tl;dr
@@ -28,13 +28,13 @@ var record = {
   _id: '5515ce73959470012aef024a',
   name: 'Eva Warner',
   age: 23,
-  lastLogin: new Date('2014-20-05 07:51:36'),
+  lastLogin: new Date('2014-05-20 07:51:36'),
   particularity: 'Matches this Regex',
   nestedObj: {
     nestedArray: [5, '34', null, true]
   },
   anotherArray: [{
-    willBeCheked: true
+    willBeChecked: true
   }, {
     willBeChecked: false
   }],
@@ -53,7 +53,7 @@ record.should.respect({
       willBeChecked: true
     },
     length: 2
-  }
+  },
   unexpectedPropertyThatShouldNotBeHere: undefined
 });
 ```
@@ -72,26 +72,26 @@ In one words, it checks if an object **respects a specification** rather than co
 ### Declaration
 
 ```javascript
-  var respect = require('respect');
+var respect = require('respect');
 ```
 
 #### With [should](https://www.npmjs.com/package/should)
 
 ```javascript
-  var should = require('should');
-  should.use(respect.shouldPlugin());
+var should = require('should');
+should.use(respect.shouldPlugin());
 ```
 
 #### With [chai](http://chaijs.com/)
 
 ```javascript
-  var chai = require('chai');
-  chai.use(respect.chaiPlugin());
+var chai = require('chai');
+chai.use(respect.chaiPlugin());
 
-  // Then, according to your preferences:
-  var should = chai.should();
-  // OR
-  var expect = chai.expect;
+// Then, according to your preferences:
+var should = chai.should();
+// OR
+var expect = chai.expect;
 ```
 
 
@@ -100,9 +100,9 @@ In one words, it checks if an object **respects a specification** rather than co
 The generic syntax is:
 
 ```javascript
-  data.should.respect(specifications, options);
-  // OR
-  expect(data).to.respect(specifications, options);
+data.should.respect(specifications, options);
+// OR
+expect(data).to.respect(specifications, options);
 ```
 
 Nested objects are compared recursively, and arrays are iterated over.
@@ -111,11 +111,12 @@ Nested objects are compared recursively, and arrays are iterated over.
 #### `partial`: Ignore un-specified fields
 
 ```javascript
-  ({
-    notImportant: 'It is here but we do not need to check for it'
-  }).should.respect({
-    butThisFieldShouldBeAbsent: undefined
-  });
+var record = {
+  notImportant: 'It is here but we do not need to check for it'
+};
+record.should.respect({
+  butThisFieldShouldBeAbsent: undefined
+});
 ```
 
 *Note:* if the record object does have the `butThisFieldShouldBeAbsent` field, an exception will be raised.
@@ -125,11 +126,12 @@ This behaviour can be deactivated by providing a `{ partial: false }` option.
 #### `regex`: Regex shortcuts
 
 ```javascript
-  ({
-    uuid: 'bbd4e20b-cdd4-5107-ad63-02a2cfc23c5b'
-  }).should.respect({
-    uuid: /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/
-  });
+var record = {
+  uuid: 'bbd4e20b-cdd4-5107-ad63-02a2cfc23c5b'
+};
+record.should.respect({
+  uuid: /^[A-Z0-9]{8}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{12}$/i
+});
 ```
 
 This behaviour can be deactivated by providing a `{ regex: false }` option.
@@ -137,21 +139,22 @@ This behaviour can be deactivated by providing a `{ regex: false }` option.
 #### `types`: Constructors shortcut
 
 ```javascript
-  ({
-    name: 'John',
-    age: 55,
-    now: new Date(),
-    pattern: /[aA]bc.\s/,
-    dateConstructor: Date,
-    regexConstructor: RegExp
-  }).should.respect({
-    name: String,
-    age: Number,
-    now: Date,
-    pattern: RegExp,
-    dateConstructor: Date,
-    regexConstructor: RegExp
-  });
+var record = {
+  name: 'John',
+  age: 55,
+  now: new Date(),
+  pattern: /[aA]bc.\s/,
+  dateConstructor: Date,
+  regexConstructor: RegExp
+};
+record.should.respect({
+  name: String,
+  age: Number,
+  now: Date,
+  pattern: RegExp,
+  dateConstructor: Date,
+  regexConstructor: RegExp
+});
 ```
 
 This behaviour can be deactivated by providing a `{ types: false }` option.
@@ -164,19 +167,20 @@ This behaviour can be deactivated by providing a `{ types: false }` option.
 Example of changing default behaviours:
 
 ```javascript
-  // will raise assertion multiple errors because of options
-  ({
-    description: 'matches the regex but is a string',
-    now: new Date(),
-    fieldThatShouldNotBeHere: true   // will not be accepted because partial=false
-  }).should.respect({
-    description: /regex/,            // will fail because regex=false
-    now: Date                        // will fail because types=false
-  }, {
-      partial: false,
-      regex: false,
-      types: false
-  });
+// will raise assertion multiple errors because of options
+var record = {
+  description: 'matches the regex but is a string',
+  now: new Date(),
+  fieldThatShouldNotBeHere: true   // will not be accepted because partial=false
+};
+record.should.respect({
+  description: /regex/,            // will fail because regex=false
+  now: Date                        // will fail because types=false
+}, {
+  partial: false,
+  regex: false,
+  types: false
+});
 ```
 
 In this extreme example, every option is removed so the comparison ends up to a *deep equal*.
@@ -193,28 +197,36 @@ you can easily pick your own alias by providing an `alias` option when generatin
 You can even declare several plugins with different options under different aliases.
 
 ```javascript
-  var chai = require('chai');
-  var respect = require('respect');
-  chai.use(respect).chaiPlugin({ alias: 'matchStrictly', partial: false, types: false }));
-  chai.use(respect).chaiPlugin({ alias: 'matchAll', partial: false }));
-  chai.use(respect).chaiPlugin({ alias: 'matchPartially' }));
-  chai.should();
+var chai = require('chai');
+var respect = require('respect');
+chai.use(respect.chaiPlugin({ alias: 'matchStrictly', partial: false, types: false }));
+chai.use(respect.chaiPlugin({ alias: 'matchAll', partial: false }));
+chai.use(respect.chaiPlugin({ alias: 'matchPartially' }));
+chai.should();
 
-  // Will fail because of the unactivated `types` option
-  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchStrictly({ name: String, age: Number, male: Boolean });
-  // Will fail because of the unactivated `partial` option and the missing 'male' key
-  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchAll({ name: String, age: Number });
-  // Will succeed
-  { name: 'Jimmy Hudson', age: 54, male: true }.should.matchPartially({ name: String, age: Number });
+var record = {
+  name: 'Jimmy Hudson',
+  age: 54,
+  male: true
+};
+
+// Will fail because of the unactivated `types` option
+record.should.matchStrictly({ name: String, age: Number, male: Boolean });
+
+// Will fail because of the unactivated `partial` option and the missing 'male' key
+record.should.matchAll({ name: String, age: Number });
+
+// Will succeed
+record.should.matchPartially({ name: String, age: Number });
 ```
 
 #### Extend the comparison methods
 
 
 ```javascript
-  var Comparator = require('respect'); 
-  var MyComparator = // TODO write extension code (examples to come)
-  chai.use(MyComparator.chaiPlugin());
+var Comparator = require('respect');
+var MyComparator = // TODO write extension code (examples to come)
+chai.use(MyComparator.chaiPlugin());
 ```
 
 ### Comparisons outside of BDD assertions
@@ -222,21 +234,25 @@ You can even declare several plugins with different options under different alia
 If you want to use `respect` as a comparison util outside of BDD assertions, you can simply use its `check()` method.
 
 ```javascript
-  // respect.check(actual, expected, [options])
-  respect.check({ name: 'Darth Vader', badass: true }, { badass: true });                      // true
-  respect.check({ name: 'Darth Vader', badass: true }, { badass: true }, { partial: false });  // false
+// respect.check(actual, expected, [options])
+var record = {
+  name: 'Darth Vader',
+  badass: true
+};
+respect.check(record, { badass: true });                      // true
+respect.check(record, { badass: true }, { partial: false });  // false
 ```
 
 ## Tests
 
 ```bash
-  $ npm test
+$ npm test
 ```
 
 ## Documentation
 
 ```bash
-  $ npm run gen-doc
+$ npm run gen-doc
 ```
 
 ## License

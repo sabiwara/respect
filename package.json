@@ -37,7 +37,8 @@
     "should",
     "chai",
     "mocha",
-    "assertion"
+    "assertion",
+    "comparison"
   ],
   "files": [
     "lib"
