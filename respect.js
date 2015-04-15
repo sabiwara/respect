@@ -14,7 +14,8 @@
     Comparator.DEFAULT_OPTIONS = {
       partial: true,
       regex: true,
-      types: true
+      types: true,
+      lambdas: true
     };
 
     function Comparator(expected1, actual1, options) {
@@ -99,7 +100,7 @@
       It successfully checks all the potential equality or matching cases, and will recursively create a new comparator
       for nested objects and arrays.
        */
-      var ref;
+      var isConstructor;
       if (_.isEqual(expected, actual)) {
         return true;
       }
@@ -109,10 +110,24 @@
       if (this.options.regex && _.isRegExp(expected)) {
         return (_.isString(actual)) && (actual.match(expected));
       }
-      if (this.options.types && (expected != null ? (ref = expected.prototype) != null ? ref.hasOwnProperty('constructor') : void 0 : void 0)) {
+      isConstructor = this.constructor.isConstructor(expected);
+      if (this.options.types && isConstructor) {
         return (actual != null ? actual.constructor : void 0) === expected;
       }
+      if (this.options.lambdas && (!isConstructor) && _.isFunction(expected)) {
+        return !!expected(actual);
+      }
       return false;
+    };
+
+    Comparator.isConstructor = function(item) {
+
+      /*
+      Checks if the given item is a constructor or not
+       */
+      var proto;
+      proto = item != null ? item.prototype : void 0;
+      return !!((proto != null ? proto.hasOwnProperty('constructor') : void 0) && proto.constructor.name);
     };
 
     Comparator.check = function(actual, expected, options) {

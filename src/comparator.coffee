@@ -12,6 +12,7 @@ class Comparator
     partial: yes
     regex: yes
     types: yes
+    lambdas: yes
 
   constructor: (@expected, @actual, options) ->
     @options = {}
@@ -47,7 +48,7 @@ class Comparator
     Checks a key from the actual object regarding to the expected value for that key
     ###
     actual = @actual[key]
-    if !@compareValues(expected, actual)
+    if not @compareValues(expected, actual)
       @conform = no
 
   compareValues: (expected, actual) ->
@@ -63,9 +64,19 @@ class Comparator
       return @constructor.check actual, expected, @options
     if @options.regex and _.isRegExp expected
       return (_.isString actual) and (actual.match expected)
-    if @options.types and expected?.prototype?.hasOwnProperty('constructor')
+    isConstructor = @constructor.isConstructor(expected)
+    if @options.types and isConstructor
       return actual?.constructor is expected
+    if @options.lambdas and (not isConstructor) and _.isFunction expected
+      return !!expected actual
     return no
+
+  @isConstructor: (item) ->
+    ###
+    Checks if the given item is a constructor or not
+    ###
+    proto = item?.prototype
+    return !!(proto?.hasOwnProperty('constructor') and proto.constructor.name)
 
   @check: (actual, expected, options) =>
     ###

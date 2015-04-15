@@ -42,7 +42,9 @@ var record = {
 };
 record.should.respect({
   name: 'Eva Warner',
-  age: 23
+  age: function(age) {
+    return (age >= 7) && (age <= 77);
+  },
   lastLogin: Date,
   particularity: /regex/i,
   nestedObj: {
@@ -149,7 +151,9 @@ var record = {
 };
 record.should.respect({
   name: String,
-  age: Number,
+  age: function(age) {
+    return (age >= 7) && (age <= 77);
+  },
   now: Date,
   pattern: RegExp,
   dateConstructor: Date,
@@ -158,6 +162,23 @@ record.should.respect({
 ```
 
 This behaviour can be deactivated by providing a `{ types: false }` option.
+
+#### `lambdas`: Lambda evaluation functions shortcut
+
+```javascript
+var record = {
+  name: 'John',
+  age: 55
+};
+record.should.respect({
+  name: 'John',
+  age: function(age) {
+    return (age >= 7) && (age <= 77);
+  }
+});
+```
+
+This behaviour can be deactivated by providing a `{ lambdas: false }` option.
 
 
 ### Override default behaviours
