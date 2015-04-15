@@ -33,6 +33,11 @@ var record = {
   nestedObj: {
     nestedArray: [5, '34', null, true]
   },
+  anotherArray: [{
+    willBeCheked: true
+  }, {
+    willBeChecked: false
+  }],
   other: 'Not relevant, will be ignored in the test'
 };
 record.should.respect({
@@ -43,6 +48,12 @@ record.should.respect({
   nestedObj: {
     nestedArray: [5, String, null, Boolean]
   },
+  anotherArray: {
+    0: {
+      willBeChecked: true
+    },
+    length: 2
+  }
   unexpectedPropertyThatShouldNotBeHere: undefined
 });
 ```
