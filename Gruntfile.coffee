@@ -46,7 +46,7 @@ module.exports = (grunt) ->
           recursive: yes,
           reporter: 'spec'
           require: ['test/common']
-          compilers: ['coffee:coffee-script/register']
+          compilers: ['coffee:./node_modules/coffee-script/register']
 
     githooks:
       all:

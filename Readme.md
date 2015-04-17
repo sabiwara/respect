@@ -1,5 +1,7 @@
 # respect.js
 
+[![Build Status](https://travis-ci.org/sabiwara/respect.svg?branch=master)](https://travis-ci.org/sabiwara/respect)
+
 Comparison plugin for BDD assertion libraries ([chai](http://chaijs.com/),
 [should](https://www.npmjs.com/package/should))
 
