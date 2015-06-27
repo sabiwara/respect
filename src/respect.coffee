@@ -32,7 +32,8 @@ class AssertionPlugin extends Comparator
       "expected #{'#{this}'} to #{keyword} #{'#{exp}'}",
       "expected #{'#{this}'} not to #{keyword} #{'#{exp}'} (false negative fail)",
       @expected,
-      @actual
+      @actual,
+      true
     )
 
   shouldAssert: (ctx) ->
