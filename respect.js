@@ -192,7 +192,7 @@ Comparison plugin for BDD assertion libraries ([chai](http://chaijs.com/),
        */
       var keyword;
       keyword = this.KEYWORD;
-      return ctx.assert(this.conform, "expected " + '#{this}' + " to " + keyword + " " + '#{exp}', "expected " + '#{this}' + " not to " + keyword + " " + '#{exp}' + " (false negative fail)", this.expected, this.actual);
+      return ctx.assert(this.conform, "expected " + '#{this}' + " to " + keyword + " " + '#{exp}', "expected " + '#{this}' + " not to " + keyword + " " + '#{exp}' + " (false negative fail)", this.expected, this.actual, true);
     };
 
     AssertionPlugin.prototype.shouldAssert = function(ctx) {
