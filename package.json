@@ -30,7 +30,7 @@
     "should": "^5.2.0"
   },
   "dependencies": {
-    "lodash": "^3.7.0"
+    "lodash": "^4.17.15"
   },
   "keywords": [
     "bdd",
